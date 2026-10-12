@@ -15,10 +15,15 @@ public class MontosService {
     }
 
     public void acumularAlTotal(Grupo grupo, Gasto gasto) {
-
-        BigDecimal total = grupo.getTotal();
-        total = total.add(gasto.getMonto());
-        grupo.setTotal(total);
+        BigDecimal nuevoTotal = grupo.getTotal().add(gasto.getMonto());
+    
+        if (nuevoTotal.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException(
+                    "El total del grupo no debe ser negativo"
+            );
+        }
+    
+        grupo.setTotal(nuevoTotal);
     }
 
 }

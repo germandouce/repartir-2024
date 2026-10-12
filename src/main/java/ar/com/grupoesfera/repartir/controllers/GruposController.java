@@ -97,6 +97,10 @@ public class GruposController {
         } catch (GrupoNoEncontradoException e) {
 
             response = ResponseEntity.notFound().build();
+        
+        } catch (IllegalArgumentException e) {
+            
+            response = ResponseEntity.badRequest().build();
 
         } catch (Exception e) {
 
