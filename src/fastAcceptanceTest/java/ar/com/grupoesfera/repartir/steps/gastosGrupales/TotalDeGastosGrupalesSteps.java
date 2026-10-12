@@ -18,6 +18,7 @@ public class TotalDeGastosGrupalesSteps extends FastCucumberSteps {
     private Grupo grupo;
     private MontosService montosService;
     private Gasto gasto;
+    private IllegalArgumentException excepcion;
 
     @Dado("que un grupo tiene un total de {int} pesos")
     public void queUnGrupoTieneUnTotalDePesos(int total) {
@@ -32,12 +33,28 @@ public class TotalDeGastosGrupalesSteps extends FastCucumberSteps {
         gasto.setMonto(BigDecimal.valueOf(monto, 0));
         montosService.acumularAlTotal(grupo, gasto);
     }
+    
+    @Cuando("se intenta registrar un gasto de {int} pesos")
+    public void seIntentaRegistrarUnGastoDePesos(int monto) {
+        gasto = new Gasto();
+        gasto.setMonto(BigDecimal.valueOf(monto, 0));
 
+        try {
+            montosService.acumularAlTotal(grupo, gasto);
+        } catch (IllegalArgumentException e) {
+            excepcion = e;
+        }
+    }
+
+    @Entonces("el gasto no se registra")
+    public void elGastoNoSeRegistra() {
+        assertThat(excepcion).isNotNull();
+    }
+    
     @Entonces("el total del grupo es de {int} pesos")
     public void elTotalDelGrupoEsDePesos(int totalEsperado) {
         assertThat(grupo.getTotal())
                 .isEqualByComparingTo(BigDecimal.valueOf(totalEsperado, 0));
     }
-
 
 }

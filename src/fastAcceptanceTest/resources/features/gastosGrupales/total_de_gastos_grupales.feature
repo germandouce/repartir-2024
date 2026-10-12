@@ -13,7 +13,7 @@ Característica: Registrar gastos grupales
       Dado que un grupo tiene un total de 100 pesos
       Cuando se intenta registrar un gasto de -150 pesos
       Entonces el gasto no se registra
-      Y el total del grupo sigue siendo de 100 pesos        
+      Y el total del grupo es de 100 pesos
     
     Escenario: Se puede registrar un gasto que deja el total en cero
       Dado que un grupo tiene un total de 100 pesos
